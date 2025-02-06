@@ -1,0 +1,2 @@
+# orbitalcoin
+added doctype.html
