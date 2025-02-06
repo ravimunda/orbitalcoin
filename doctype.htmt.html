@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orbital Token - Prelaunch</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.7.4/web3.min.js"></script>
+</head>
+<body>
+
+    <!-- Background -->
+    <div class="background"></div>
+
+    <!-- Logo -->
+    <div class="logo">
+        <img src="https://i.ibb.co/0y38F0FT" alt="Orbital Token Logo">
+    </div>
+
+    <!-- Wallet Connect Button -->
+    <div class="wallet-section">
+        <button id="connectWallet">Connect Wallet</button>
+        <p id="walletAddress">Not Connected</p>
+    </div>
+
+    <!-- Countdown Timer -->
+    <div class="countdown">
+        <h2>Prelaunch Countdown</h2>
+        <p id="timer"></p>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="dashboard">
+        <h2>Dashboard</h2>
+        <p><strong>Profile:</strong> <span id="profile">Not Connected</span></p>
+        <p><strong>Direct Team:</strong> 5 Members</p>
+        <p><strong>Bonus:</strong> 0.2% per Referral</p>
+        <p><strong>Total Earnings:</strong> <span id="earnings">0 BNB</span></p>
+        <p><strong>Referral Link:</strong> <span id="referralLink">Generate by Connecting Wallet</span></p>
+    </div>
+
+    <script>
+        // Wallet Connection
+        async function connectWallet() {
+            if (window.ethereum) {
+                try {
+                    const web3 = new Web3(window.ethereum);
+                    await window.ethereum.request({ method: "eth_requestAccounts" });
+                    const accounts = await web3.eth.getAccounts();
+                    document.getElementById("walletAddress").innerText = "Connected: " + accounts[0];
+
+                    // Generate Referral Link
+                    document.getElementById("referralLink").innerText = "https://orbitaltoken.com/?ref=" + accounts[0];
+                } catch (error) {
+                    console.log("Error connecting wallet:", error);
+                }
+            } else {
+                alert("Please install MetaMask or Trust Wallet.");
+            }
+        }
+        document.getElementById("connectWallet").addEventListener("click", connectWallet);
+
+        // Countdown Timer
+        function countdown() {
+            const targetDate = new Date("2025-04-01T00:00:00Z").getTime();
+            setInterval(() => {
+                const now = new Date().getTime();
+                const timeLeft = targetDate - now;
+                const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                document.getElementById("timer").innerText = `${days}d ${hours}h ${minutes}m`;
+            }, 1000);
+        }
+        countdown();
+    </script>
+
+    <style>
+        /* Background */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            color: white;
+            background: linear-gradient(45deg, #ff00ff, #0000ff, #ff6600);
+            background-size: 400% 400%;
+            animation: gradientBG 10s infinite alternate;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        .logo img {
+            width: 200px;
+            margin-top: 20px;
+        }
+
+        .wallet-section, .dashboard, .countdown {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            margin: 20px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        button {
+            background-color: #ff6600;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #ff3300;
+        }
+    </style>
+
+</body>
+</html>
